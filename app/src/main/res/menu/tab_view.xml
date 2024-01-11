@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/home" android:title="Home" android:icon="@drawable/home_icon"/>
+    <item android:id="@+id/crea_lega" android:title="Crea Lega" android:icon="@drawable/add"/>
+    <item android:id="@+id/partecipa_lega" android:title="Partecipa Lega" android:icon="@drawable/partecipa"/>
+    <item android:id="@+id/profilo" android:title="Profilo"  android:icon="@drawable/profile"/>
+</menu>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "465015233951",
+    "project_id": "fantapronosticidatabase",
+    "storage_bucket": "fantapronosticidatabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465015233951:android:a6ae4900f5d50198aef1aa",
+        "android_client_info": {
+          "package_name": "com.example.fantapronosticiesame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD7z3qiZVbdCYRK2x5bAk5O3cyL39Mbas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465015233951:android:eaa96a11003cfd00aef1aa",
+        "android_client_info": {
+          "package_name": "com.example.progettoesameandroid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD7z3qiZVbdCYRK2x5bAk5O3cyL39Mbas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
