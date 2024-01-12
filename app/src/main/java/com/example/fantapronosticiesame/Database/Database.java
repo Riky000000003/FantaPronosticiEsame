@@ -5,6 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.fantapronosticiesame.Interface.UtenteEsiste;
+import com.example.fantapronosticiesame.Model.Lega;
 import com.example.fantapronosticiesame.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-        getLeghe();
+        getListaLeghe(Cookie.getCookieId());
         legaAdapter = new LegaAdapter(listaLeghe, new OnItemClickListener() {
             @Override
             public void onItem(String parola, Lega lega) {
@@ -78,66 +78,62 @@ public class HomeActivity extends AppCompatActivity {
             }
             return false;
         });
-
-
     }
-
-    public void getLeghe() {
+    public void getListaLeghe (String idUtente) {
         this.database.getDb().collection("Leghe")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.d("FireStore", "Errore");
-                            return;
-                        }
-                        listaLeghe.clear();
-                        for (DocumentSnapshot documentSnapshot: value) {
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document: task.getResult()) {
                             Lega lega = new Lega();
-                            lega.setNomeLega(documentSnapshot.getString("nomeLega"));
-                            lega.setIdAdminUtente(documentSnapshot.getString("idAdminUtente"));
-                            lega.setId(documentSnapshot.getId());
-                            lega.setMaxPartecipanti(Math.toIntExact(documentSnapshot.getLong("maxPartecipanti")));
-                            getListaPartecipantiForLega(lega, database.getDb(), new UtenteEsiste() {
+                            lega.setId(document.getId());
+                            lega.setNomeLega(document.getString("nomeLega"));
+                            lega.setIdAdminUtente(document.getString("idAdminUtente"));
+                            lega.setMaxPartecipanti(Math.toIntExact(document.getLong("maxPartecipanti")));
+                            getListaPartecipanti(lega, idUtente, new UtenteEsiste() {
                                 @Override
                                 public void onUtenteEsiste(boolean esiste) {
-                                    if (esiste == true) {
+                                    if (esiste) {
                                         listaLeghe.add(lega);
+                                        Log.d("lega aggiunta", ""+ listaLeghe.size());
+                                        legaAdapter.notifyDataSetChanged();
                                     }
                                 }
                             });
                         }
-                        legaAdapter.notifyDataSetChanged();
                     }
                 });
     }
 
-    private void getListaPartecipantiForLega(Lega lega, FirebaseFirestore db, UtenteEsiste utenteEsiste) {
-        db.collection("Leghe").document(lega.getId())
+    private void getListaPartecipanti(Lega lega, String idUtente, UtenteEsiste utenteEsiste) {
+        this.database.getDb().collection("Leghe")
+                .document(lega.getId())
                 .collection("listaPartecipanti")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean stato = false;
-                            lega.getListaPartecipanti().clear();
-                            for (QueryDocumentSnapshot partecipanteSnapshot : task.getResult()) {
-                                if (partecipanteSnapshot.getId().equals(Cookie.getCookieId())) {
-                                    stato = true;
-                                    User utente = new User();
-                                    utente.setId(partecipanteSnapshot.getId());
-                                    utente.setNome(partecipanteSnapshot.getString("nome"));
-                                    utente.setCognome(partecipanteSnapshot.getString("cognome"));
-                                    utente.setUsername(partecipanteSnapshot.getString("username"));
-                                    utente.setPassword(partecipanteSnapshot.getString("password"));
-                                    lega.getListaPartecipanti().add(utente);
-                                }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        boolean stato = false;
+                        for (QueryDocumentSnapshot document: task.getResult()) {
+                            if (document.getId().equals(idUtente)) {
+                                Log.d("Utente esiste", document.getId());
+                                stato = true;
+                                break;
+                            }
+                        }
+                        if (stato) {
+                            for (QueryDocumentSnapshot document: task.getResult()) {
+                                User user = new User();
+                                user.setId(document.getId());
+                                user.setNome(document.getString("nome"));
+                                user.setCognome(document.getString("cognome"));
+                                user.setUsername(document.getString("username"));
+                                user.setPassword(document.getString("password"));
+                                lega.getListaPartecipanti().add(user);
+                                Log.d("Utente aggiunto", document.getId());
                             }
                             utenteEsiste.onUtenteEsiste(stato);
-                            legaAdapter.notifyDataSetChanged();
                         } else {
-                            Log.d("FireStore", "Errore durante l'ottenimento della listaPartecipanti", task.getException());
+                            utenteEsiste.onUtenteEsiste(stato);
                         }
                     }
                 });
