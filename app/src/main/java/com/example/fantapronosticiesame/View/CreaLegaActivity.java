@@ -43,7 +43,7 @@ public class CreaLegaActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.partecipa_lega) {
-                Intent intent = new Intent(CreaLegaActivity.this, CreaLegaActivity.class);
+                Intent intent = new Intent(CreaLegaActivity.this, PartecipaActivity.class);
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.profilo) {
@@ -84,6 +84,7 @@ public class CreaLegaActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentReference -> {
                     String idDocumento = documentReference.getId();
                     String path = "Leghe/" + idDocumento + "/listaPartecipanti";
+                    Log.d("PATH", path);
                     CollectionReference collectionReference2 = this.database.getDb().collection(path);
                     Map<String, Object> dato2 = new HashMap<>();
                     dato2.put("nome", Cookie.getCookieNome());

@@ -43,6 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        listaLeghe.clear();
         getListaLeghe(Cookie.getCookieId());
         legaAdapter = new LegaAdapter(listaLeghe, new OnItemClickListener() {
             @Override
@@ -68,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.partecipa_lega) {
-                Intent intent = new Intent(HomeActivity.this, CreaLegaActivity.class);
+                Intent intent = new Intent(HomeActivity.this, PartecipaActivity.class);
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.profilo) {
@@ -81,6 +82,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     public void getListaLeghe (String idUtente) {
         this.database.getDb().collection("Leghe")
+                .orderBy("nomeLega")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
