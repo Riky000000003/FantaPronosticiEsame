@@ -12,11 +12,12 @@ import com.example.fantapronosticiesame.databinding.ActivityCalendarioBinding;
 
 public class CalendarioActivity extends AppCompatActivity {
     protected ActivityCalendarioBinding binding;
+    protected Lega lega = new Lega();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(CalendarioActivity.this, R.layout.activity_calendario);
-        Lega lega = (Lega) getIntent().getSerializableExtra("lega");
+        String idLega = getIntent().getStringExtra("idLega");
 
         binding.tabView.setSelectedItemId(R.id.calendario);
         binding.tabView.setOnItemSelectedListener(item -> {

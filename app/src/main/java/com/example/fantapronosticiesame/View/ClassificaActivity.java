@@ -12,28 +12,29 @@ import com.example.fantapronosticiesame.databinding.ActivityClassificaBinding;
 
 public class ClassificaActivity extends AppCompatActivity {
     protected ActivityClassificaBinding binding;
+    protected Lega lega = new Lega();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_classifica);
-        Lega lega = (Lega) getIntent().getSerializableExtra("lega");
+        String idLega = getIntent().getStringExtra("idLega");
 
         binding.tabView.setSelectedItemId(R.id.classifica);
         binding.tabView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
                 Intent intent = new Intent(ClassificaActivity.this, LegaActivity.class);
-                intent.putExtra("lega", lega);
+                intent.putExtra("idLega", lega.getId());
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.calendario) {
                 Intent intent = new Intent(ClassificaActivity.this, CalendarioActivity.class);
-                intent.putExtra("lega", lega);
+                intent.putExtra("idLega", lega.getId());
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.classifica) {
                 Intent intent = new Intent(ClassificaActivity.this, ClassificaActivity.class);
-                intent.putExtra("lega", lega);                startActivity(intent);
+                intent.putExtra("idLega", lega.getId());            startActivity(intent);
                 return true;
             }
             return false;

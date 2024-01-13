@@ -43,14 +43,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-        listaLeghe.clear();
         getListaLeghe(Cookie.getCookieId());
         legaAdapter = new LegaAdapter(listaLeghe, new OnItemClickListener() {
             @Override
             public void onItem(String parola, Lega lega) {
                 if (parola.equals("Entra")) {
                     Intent intent = new Intent(HomeActivity.this, LegaActivity.class);
-                    intent.putExtra("lega", lega);
+                    intent.putExtra("idLega", lega.getId());
                     startActivity(intent);
                 }
             }
