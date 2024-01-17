@@ -36,7 +36,7 @@ public class ProfiloActivity extends AppCompatActivity {
         });
 
 
-        binding.tabView.setSelectedItemId(R.id.crea_lega);
+        binding.tabView.setSelectedItemId(R.id.profilo);
         binding.tabView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {

@@ -46,6 +46,11 @@ public class LegaActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        binding.buttonLega.setOnClickListener(v -> {
+            Intent intent = new Intent(LegaActivity.this, HomeActivity.class);
+            startActivity(intent);
+        });
     }
 
     public void getLegaById(String idLega) {
